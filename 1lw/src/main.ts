@@ -6,7 +6,7 @@ function calc(expression: string): number | string {
         // Вычисляем результат с использованием рекурсивной функции
         const result = evaluate(tokens);
 
-        // Если токенов больше не осталось, возвращаем результат
+        // Если токенов не осталось, возвращаем результат
         if (tokens.length === 0) {
             return result;
         } else {
@@ -17,16 +17,21 @@ function calc(expression: string): number | string {
     }
 }
 
-// Функция для токенизации выражения (разделение на операторы и операнды)
-function tokenize(expression: string): string[] {
+// Токенизация(разделение на операторы и операнды)
+function tokenize(expression) {
     return expression
         .replace(/\(/g, " ( ")
         .replace(/\)/g, " ) ")
+        .replace(/\-/g, " - ")
+        .replace(/\+/g, " + ")
+        .replace(/\*/g, " * ")
+        .replace(/\//g, " / ")
+
         .trim()
-        .split(/\s+/); // Разделяем строку по пробелам
+        .split(/\s+/);
 }
 
-// Рекурсивная функция для вычисления выражения
+// Рекурсивная ф-я
 function evaluate(tokens: string[]): number {
     if (tokens.length === 0) {
         throw new Error("Неправильное выражение.");
@@ -34,7 +39,7 @@ function evaluate(tokens: string[]): number {
     //вынимаем 1 элемент
     const token = tokens.shift();
 
-    // Если это скобка, продолжаем вычисление вложенного выражения
+    // Если скобка - продолжаем вычисление вложенного выражения
     if (token === "(") {
         const result = evaluate(tokens);
 
@@ -45,7 +50,7 @@ function evaluate(tokens: string[]): number {
         return result;
     }
 
-    // Если это оператор, вычисляем его
+    // Если оператор - вычисляем 
     if (isOperator(token!)) {
         const operand1 = evaluate(tokens);
         const operand2 = evaluate(tokens);
@@ -88,6 +93,6 @@ function performOperation(operator: string, operand1: number, operand2: number):
 }
 
 console.log(calc("((- 5 6) "));   // с ошибкой
-console.log(calc("*(- 5 6) 7"));       // -7
+console.log(calc("*(-5 6) 7"));       // -7
 console.log(calc("+( / 10 5 ) 2"));      // 4
 console.log(calc("*( + 2 3 ) ( + 1 1 )"));// 10

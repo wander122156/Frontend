@@ -10,7 +10,7 @@
 
         /* Emit */
         "sourceMap": true, // Создать source map файлы для готовых файлов JavaScript (хороошо подходит для дебаггинга)
-        "removeComments": true, // Игнорировать комментарии
+        //"removeComments": true, // Игнорировать комментарии
     },
 
   	"include": ["src"] // Компилировать только файлы из папки src
